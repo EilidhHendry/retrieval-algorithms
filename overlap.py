@@ -29,10 +29,10 @@ def calculate_overlap(query_dict, doc_dict):
 
 
 if __name__ == '__main__':
-	query_dict = utils.process_data('qrys.txt')
-	doc_dict = utils.process_data('docs.txt')
+	query_dict = utils.process_data('data/qrys.txt')
+	doc_dict = utils.process_data('data/docs.txt')
 
 	overlap_scores = calculate_overlap(query_dict, doc_dict)
 
-	with open('overlap.top','w') as output_file:
+	with open('results/overlap.top','w') as output_file:
 		output_file = utils.write_result(overlap_scores, output_file)

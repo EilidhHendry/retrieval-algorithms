@@ -63,10 +63,10 @@ def calculate_tfidf(query_dict, doc_dict, k=2):
 
 
 if __name__ == "__main__":
-    query_dict = utils.process_data('qrys.txt')
-    doc_dict = utils.process_data('docs.txt')
+    query_dict = utils.process_data('data/qrys.txt')
+    doc_dict = utils.process_data('data/docs.txt')
 
     overlap_scores = calculate_tfidf(query_dict, doc_dict)
 
-    with open('tfidf.top', 'w') as output_file:
+    with open('results/tfidf.top', 'w') as output_file:
         output_file = utils.write_result(overlap_scores, output_file)
