@@ -1,0 +1,4 @@
+Developed a search engine for retrieving relevant documents in response to narrative queries.
+
+overlap.py: Implemented a simple word overlap retrieval algorithm. For each query Q and for each document D it computes the overlap score between Q and D.
+tfidf.py: Implemented a tf.idf retrieval algorithm, based on the weighted sum formula with tf.idf weighting.

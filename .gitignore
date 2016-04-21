@@ -1,0 +1,10 @@
+.idea/
+.DS_Store
+*.pyc
+*.sw*
+venv/
+*.sqlite3*
+celerybeat-schedule
+*.pid
+node_modules
+npm-debug.log
