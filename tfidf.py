@@ -1,6 +1,7 @@
 import utils
 import math
 
+doc_freqs={}
 
 def average_length(doc_dict):
     # Compute average document length (used to compute the tdf portion of the score)
@@ -10,6 +11,15 @@ def average_length(doc_dict):
         total_length += doc_length
     average_doc_length = float(total_length)/len(doc_dict)
     return average_doc_length
+
+
+def find_term_freq_doc(word, doc_dict):
+    if word not in doc_freqs:
+        doc_freq = len([1 for doc_id in doc_dict if word in doc_dict[doc_id]])
+        doc_freqs[word] = doc_freq
+        return doc_freq
+    else:
+        return doc_freqs[word]
 
 
 def calculate_tfidf(query_dict, doc_dict, k=2):
@@ -24,40 +34,32 @@ def calculate_tfidf(query_dict, doc_dict, k=2):
         # get the text
         query_text = query_dict[query_id]
 
-        # get term frequencies for each unique word in the query
-        query_freqs = {}
-        for word in set(query_text):
-            query_freqs[word] = query_text.count(word)
-
-        # compute document frequency for the words in the query
-        doc_freqs = {}
-        for word in set(query_text):
-            if word not in doc_freqs:
-                doc_freqs[word] = 0
-
-        for doc_id in doc_dict:
-            if word in doc_dict[doc_id]:    # If the word is in a document then
-                doc_freqs[word] += 1     # add 1 to its doc frequency
-
         for doc_id in doc_dict:
             doc_text = doc_dict[doc_id]
 
-            doc_freqs = {}
-            for word in set(query_text):
-                doc_freqs[word] = doc_text.count(word)
-
             score = 0
-            for word in query_text:
-                term_freq_q = query_freqs[word]     # term frewuency fo the query
-                term_freq_d = doc_freqs[word]       # term frequency for the document
-                if term_freq_d == 0:
-                    continue
-                df = doc_freqs[word]
-                idf = math.log(len(doc_dict)/float(df))
-                tdf = float(term_freq_d)/(term_freq_d + (k * len(doc_text) / average_doc_length))
-                score += term_freq_q * tdf * idf
+            for word in set(query_text):
+                # term frequency for the query and document
+                term_freq_query = query_text.count(word)
+                term_freq_doc = doc_text.count(word)
 
-                score_dict[(query_id, doc_id)] = score
+                # find number of occurrences of word in all documents
+                dfw = find_term_freq_doc(word, doc_dict)
+
+                # skip if 0, as query word not in docs
+                if not dfw:
+                    continue
+
+                # idf = log(|C|/dfw)
+                idf = math.log(float(len(doc_dict))/dfw)
+
+                # tdf = tfwd / (tfwd + ((k * |D|) / avgD))
+                tdf = float(term_freq_doc)/(term_freq_doc + (k * len(doc_text) / average_doc_length))
+
+                # tfidf = tfqd * tdf * idf
+                score += term_freq_query * tdf * idf
+
+            score_dict[(query_id, doc_id)] = score
 
     return score_dict
 
