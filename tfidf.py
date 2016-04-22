@@ -6,6 +6,7 @@ import nltk
 # initialise dictionaries/list to ease computation
 doc_freqs={}
 
+
 def average_length(doc_dict):
     # Compute average document length (used to compute the tdf portion of the score)
     total_length = 0

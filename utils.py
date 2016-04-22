@@ -12,8 +12,8 @@ def process_data(filename):
             clean_line = line.lower().translate(None, string.punctuation).strip()
 
             # extract id and text
-            doc_id = line.split()[0]
-            text = line.split()[1:]
+            doc_id = clean_line.split()[0]
+            text = clean_line.split()[1:]
 
             # store in dictionary
             processed_dictionary[doc_id] = text
