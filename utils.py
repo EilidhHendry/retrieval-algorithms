@@ -33,7 +33,7 @@ def generate_data(filename):
             text = clean_line.split()[1:]
 
             # yield each line as processed
-            yield doc_id, text
+            yield int(doc_id), text
 
 
 def write_result(result_dict, output_file):
