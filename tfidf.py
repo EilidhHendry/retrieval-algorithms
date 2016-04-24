@@ -43,7 +43,7 @@ def calculate_tfidf(query_text, doc_dict, average_doc_length, k):
             if not dfw:
                 continue
 
-            # idf = log(|C|/dfw)
+            # inverse document frequency (idf) = log(|C|/dfw)
             idf = math.log(float(len(doc_dict))/dfw)
 
             # tdf = tfwd / (tfwd + ((k * |D|) / avgD))
@@ -53,6 +53,7 @@ def calculate_tfidf(query_text, doc_dict, average_doc_length, k):
             score += term_freq_query * tdf * idf
 
         yield doc_id, score
+
 
 
 def standard_tfidf(query_dict, doc_dict, k=2):

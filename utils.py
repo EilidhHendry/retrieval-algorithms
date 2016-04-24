@@ -21,6 +21,21 @@ def process_data(filename):
     return processed_dictionary
 
 
+def generate_data(filename):
+    with open(filename) as input_file:
+        for line in input_file:
+
+            # lowercase text, remove punctuation, strip trailing newline
+            clean_line = line.lower().translate(None, string.punctuation).strip()
+
+            # extract id and text
+            doc_id = clean_line.split()[0]
+            text = clean_line.split()[1:]
+
+            # yield each line as processed
+            yield doc_id, text
+
+
 def write_result(result_dict, output_file):
 	# write dictionary to file in required format
 	for query_id, doc_id in result_dict:
